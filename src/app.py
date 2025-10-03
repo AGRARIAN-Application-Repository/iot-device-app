@@ -3,23 +3,23 @@
 iot-device-app - Agrarian Application
 """
 
-from flask import Flask, jsonify
-import os
+from fastapi import FastAPI
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/')
-def home():
-    return jsonify({
+@app.get("/")
+async def home():
+    return {
         "name": "iot-device-app",
         "version": "1.0.0",
         "status": "running",
         "description": "Agrarian iot-device-app application"
-    })
+    }
 
-@app.route('/health')
-def health():
-    return jsonify({"status": "healthy"})
+@app.get("/health")
+async def health():
+    return {"status": "healthy"}
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=80)
